@@ -16,12 +16,7 @@ echo "Hello from Access Key" > file1.txt
 
 # Purpose: Authenticate using account key (less secure, but commonly used)
 
-az storage blob upload 
---account-name mystorageblaze123 
---account-key AbCdEf123456... 
---container-name demo-container 
---name file1.txt 
---file file1.txt
+az storage blob upload --account-name mystorageblaze123 --account-key AbCdEf123456... --container-name demo-container --name file1.txt --file file1.txt
 
 # ------------------------------------------------------------
 
@@ -45,10 +40,7 @@ echo "Hello from Connection String" > file2.txt
 
 # Purpose: Simpler and widely used in applications/config files
 
-az storage blob upload 
---container-name demo-container 
---name file2.txt 
---file file2.txt
+az storage blob upload --container-name demo-container --name file2.txt --file file2.txt
 
 # ------------------------------------------------------------
 
