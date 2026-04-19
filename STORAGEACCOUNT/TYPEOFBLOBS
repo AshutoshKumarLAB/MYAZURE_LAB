@@ -48,7 +48,7 @@ az storage container create --name logs-container --account-name mystgappenddemo
 
 # ------------------------------------------------------------
 
-echo "Initial log" > app-log9.txt && az storage blob upload --account-name mystgappenddemo123 --account-key $STORAGE_KEY --container-name logs-container --name app-log.txt --file app-log.txt --type append
+echo "Initial log" > app-log.txt && az storage blob upload --account-name mystgappenddemo123 --account-key $STORAGE_KEY --container-name logs-container --name app-log.txt --file app-log.txt --type append
 
 # ------------------------------------------------------------
 
@@ -58,7 +58,7 @@ echo "Initial log" > app-log9.txt && az storage blob upload --account-name mystg
 
 # ------------------------------------------------------------
 
-echo "Second log entry $(date)" > temp.txt && az storage blob upload --account-name mystgappenddemo123 --account-key $STORAGE_KEY --container-name logs-container --name app-log.txt --file temp.txt --type append
+echo "Second log entry $(date)" > app-log.txt && az storage blob upload --account-name mystgappenddemo123 --account-key $STORAGE_KEY --container-name logs-container --name app-log.txt --file app-log.txt --type append
 
 # ------------------------------------------------------------
 
