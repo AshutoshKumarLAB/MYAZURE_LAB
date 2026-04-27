@@ -1,0 +1,93 @@
+#!/bin/bash
+
+# ==============================
+# VARIABLES
+# ==============================
+SERVER="myserverblaze.database.windows.net"
+USER="azure"
+PASSWORD="YourPasswordHere"
+DB="db01"
+
+echo "🚀 Setting up Azure SQL tools..."
+
+# Install dependencies
+sudo apt update -y
+sudo apt install -y curl gnupg
+
+# Add Microsoft repo
+curl https://packages.microsoft.com/keys/microsoft.asc | \
+gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-prod.gpg > /dev/null
+
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/ubuntu/24.04/prod noble main" | \
+sudo tee /etc/apt/sources.list.d/mssql-release.list
+
+# Install sqlcmd
+sudo apt update -y
+sudo ACCEPT_EULA=Y apt install -y mssql-tools18 unixodbc-dev
+
+# Add PATH for current script
+export PATH="$PATH:/opt/mssql-tools18/bin"
+
+echo "🗄️ Creating table..."
+
+sqlcmd -S $SERVER -U $USER -P $PASSWORD -d $DB -Q "
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Employees')
+BEGIN
+    CREATE TABLE Employees (
+        ID INT PRIMARY KEY,
+        Name VARCHAR(50),
+        Salary INT
+    )
+END
+"
+
+echo "✅ Setup completed!"
+
+
+
+
+
+
+
+
+
+insert_data.sh
+
+
+#!/bin/bash
+
+# Ensure sqlcmd works inside script
+export PATH="$PATH:/opt/mssql-tools18/bin"
+
+# ==============================
+# VARIABLES
+# ==============================
+SERVER="myserverblaze.database.windows.net"
+USER="azure"
+PASSWORD="YourPasswordHere"
+DB="db01"
+
+echo "📊 Inserting data..."
+
+for i in {1..10}
+do
+  sqlcmd -S $SERVER -U $USER -P $PASSWORD -d $DB -Q "
+  INSERT INTO Employees VALUES ($i, 'User$i', $((30000 + i*1000)));
+  "
+done
+
+echo "✅ Data inserted!"
+
+echo "🔍 Verifying..."
+
+sqlcmd -S $SERVER -U $USER -P $PASSWORD -d $DB -Q "SELECT * FROM Employees;"
+
+
+
+
+
+
+
+"
+
+echo "✅ Setup completed!"
