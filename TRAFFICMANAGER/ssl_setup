@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# ===============================
+# VARIABLES
+# ===============================
+VM_NAME="VM1"
+SSL_DIR="/etc/nginx/ssl"
+NGINX_CONF="/etc/nginx/sites-available/default"
+
+# ===============================
+# INSTALL PACKAGES
+# ===============================
+sudo apt update -y
+sudo apt install -y nginx openssl
+
+# ===============================
+# CREATE SSL CERTIFICATE
+# ===============================
+sudo mkdir -p $SSL_DIR
+
+sudo openssl req -x509 -nodes -days 365 \
+-newkey rsa:2048 \
+-keyout $SSL_DIR/nginx.key \
+-out $SSL_DIR/nginx.crt \
+-subj "/CN=localhost"
+
+# ===============================
+# CREATE HTML FILE
+# ===============================
+echo "<h1>Hello from $VM_NAME (HTTPS)</h1>" | sudo tee /var/www/html/index.html
+
+# ===============================
+# CONFIGURE NGINX
+# ===============================
+sudo bash -c "cat > $NGINX_CONF" <<EOF
+server {
+    listen 443 ssl;
+
+    ssl_certificate $SSL_DIR/nginx.crt;
+    ssl_certificate_key $SSL_DIR/nginx.key;
+
+    root /var/www/html;
+    index index.html;
+}
+EOF
+
+# ===============================
+# RESTART NGINX
+# ===============================
+sudo systemctl restart nginx
+sudo systemctl enable nginx
+
+# ===============================
+# STATUS
+# ===============================
+echo "✅ HTTPS setup completed on $VM_NAME"
