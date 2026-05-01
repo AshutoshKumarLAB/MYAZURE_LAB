@@ -26,6 +26,8 @@ $pass="P@ssw0rd1234!"
 az vm create -g tm-https-rg -n vm1 --image Ubuntu2204 --size Standard_B1s --admin-username azureuser --admin-password $pass --authentication-type password
 # VM2 (ONE LINE)
 az vm create -g tm-https-rg -n vm2 --image Ubuntu2204 --size Standard_B1s --admin-username azureuser --admin-password $pass --authentication-type password
+#VM3 (ONE LINE)
+az vm create -g firewalltest -n vm3 --image Ubuntu2204 --size Standard_B1s --admin-username azureuser --admin-password $pass --authentication-type password
 
 ===========================================
 STEP 3: OPEN PORT 443
@@ -33,7 +35,7 @@ STEP 3: OPEN PORT 443
 
 az vm open-port -g tm-https-rg -n vm1 --port 443
 az vm open-port -g tm-https-rg -n vm2 --port 443
-
+az vm open-port -g firewalltest -n vm3 --port 443
 ===========================================
 STEP 5: CREATE TRAFFIC MANAGER
 ==============================
