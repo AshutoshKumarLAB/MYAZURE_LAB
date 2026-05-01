@@ -1,0 +1,35 @@
+===========================================
+AZURE TRAFFIC MANAGER (HTTPS) PRACTICAL
+=======================================
+
+SERVICE:
+Azure Traffic Manager
+
+===========================================
+STEP 1: CREATE RESOURCE GROUP
+=============================
+
+# One line
+
+az group create -n tm-https-rg -l centralindia
+
+===========================================
+STEP 2: CREATE VMs (PASSWORD BASED)
+===================================
+
+# Set password (change before use)
+
+$pass="P@ssw0rd1234!"
+
+# VM1 (ONE LINE)
+
+az vm create -g tm-https-rg -n vm1 --image Ubuntu2204 --size Standard_B1s --admin-username azureuser --admin-password $pass --authentication-type password
+# VM2 (ONE LINE)
+az vm create -g tm-https-rg -n vm2 --image Ubuntu2204 --size Standard_B1s --admin-username azureuser --admin-password $pass --authentication-type password
+
+===========================================
+STEP 3: OPEN PORT 443
+=====================
+
+az vm open-port -g tm-https-rg -n vm1 --port 443
+az vm open-port -g tm-https-rg -n vm2 --port 443
