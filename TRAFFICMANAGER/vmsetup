@@ -33,3 +33,9 @@ STEP 3: OPEN PORT 443
 
 az vm open-port -g tm-https-rg -n vm1 --port 443
 az vm open-port -g tm-https-rg -n vm2 --port 443
+
+===========================================
+STEP 5: CREATE TRAFFIC MANAGER
+==============================
+
+az network traffic-manager profile create -g tm-https-rg -n mytmprofile --routing-method Priority --unique-dns-name mytm-https-demo --ttl 30 --protocol HTTPS --port 443 --path "/"
